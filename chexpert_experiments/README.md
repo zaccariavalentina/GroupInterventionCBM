@@ -1,0 +1,1 @@
+This PyTorch implementation is based on the original TensorFlow code from [interactive_cbms](https://github.com/google-research/google-research/tree/master/interactive_cbms) by Google Research, licensed under the Apache License 2.0.

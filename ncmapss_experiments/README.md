@@ -1,0 +1,1 @@
+This project uses code from [EPFL-IMOS/concept-prognostics](https://github.com/EPFL-IMOS/concept-prognostics), licensed under the MIT License. 
