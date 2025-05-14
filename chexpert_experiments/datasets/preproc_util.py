@@ -75,7 +75,6 @@ def center_crop_and_resize(image, height, width, crop_proportion):
     return image 
 
 
-#TODO: different from original method
 def random_brightness(image, max_delta):
     """Applies random brightness adjustment."""
     if max_delta < 0:

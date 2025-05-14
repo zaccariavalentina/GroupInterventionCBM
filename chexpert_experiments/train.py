@@ -42,7 +42,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 _ARCH = flags.DEFINE_enum_class(
     'arch',
-    default=enum_utils.Arch.X_TO_C_TO_Y_SIGMOID,
+    default=enum_utils.Arch.C_TO_Y,
     enum_class=enum_utils.Arch,
     help='Architecture to use for training.')
 _NON_LINEAR_CTOY = flags.DEFINE_bool(
@@ -89,7 +89,7 @@ _STOPPING_PATIENCE = flags.DEFINE_integer(
     help='Patience (in no. of epochs) for early stopping.')
 _EXPERIMENT_DIR = flags.DEFINE_string(
     'experiment_dir',
-    default='CBM_results',
+    default='./chexpert_experiments/results',
     help='Experiment directory to save models and results.')
 _NUM_WORKERS = flags.DEFINE_integer(
     'num_workers', 
@@ -265,12 +265,21 @@ def main(argv: Sequence[str]):
         raise ValueError('Dataset not supported.')
 
     # Create experiment directory structure
+    if config.arch.value == enum_utils.Arch.X_TO_C or config.arch.value == enum_utils.Arch.C_TO_Y:
+        btype = 'independent'
+    elif config.arch.value == enum_utils.Arch.X_TO_C_TO_Y: 
+        btype = 'joint'
+    elif config.arch.value == enum_utils.Arch.X_TO_C_TO_Y_SIGMOID:
+        btype = 'joint_sigmoid'
+    else:
+        btype = None
+
     base_checkpoint_dir = os.path.join(
-        config.experiment_dir, config.dataset.value, config.arch.value,
+        config.experiment_dir, config.dataset.value, btype, config.arch.value, f'seed-{config.seed}',
         f'{config.optimizer}_lr-{config.lr}_wd-{config.wd}'
     )
     log_dir = os.path.join(
-        config.experiment_dir, config.dataset.value, 'logs', config.arch.value,
+        config.experiment_dir, config.dataset.value, btype, config.arch.value, f'seed-{config.seed}', 'logs', 
         f'{config.optimizer}_lr-{config.lr}_wd-{config.wd}'
     )
     os.makedirs(base_checkpoint_dir, exist_ok=True)

@@ -21,7 +21,7 @@ def random_concepts(
     n_samples, n_concepts = final_mask.shape
     revealed_concept_names_set: Set[str] = set()
 
-    if not include_uncertain and concept_uncertainty is not None:
+    if not include_uncertain and concept_uncertainty is None:
         raise ValueError("concept_uncertainty tensor is required when include_uncertain is False.")
     
     # iterate over samples
@@ -82,7 +82,7 @@ def random_groups_within_budget(
     revealed_concept_names_set: Set[str] = set()
     concept_name_to_index = {name: idx for idx, name in enumerate(concept_names)} # map concept names to indices
     
-    if not include_uncertain and concept_uncertainty is not None:
+    if not include_uncertain and concept_uncertainty is None:
         raise ValueError("concept_uncertainty tensor is required when include_uncertain is False.")
     
     # iterate over samples
@@ -213,7 +213,7 @@ def greedy_concepts(
     n_samples, n_concepts = final_mask.shape
     revealed_concept_names_set: Set[str] = set()
 
-    if not include_uncertain and concept_uncertainty is not None:
+    if not include_uncertain and concept_uncertainty is None:
         raise ValueError("concept_uncertainty tensor is required when include_uncertain is False.")
     
     # iterate over samples
@@ -290,7 +290,7 @@ def greedy_groups(
     revealed_concept_names_set: Set[str] = set()
     concept_name_to_index = {name: idx for idx, name in enumerate(concept_names)} # map concept names to indices
 
-    if not include_uncertain and concept_uncertainty is not None:
+    if not include_uncertain and concept_uncertainty is None:
         raise ValueError("concept_uncertainty tensor is required when include_uncertain is False.")
     
     # iterate over samples
@@ -441,7 +441,7 @@ def optimized(
     revealed_concept_names_set: Set[str] = set()
     concept_name_to_index = {name: idx for idx, name in enumerate(concept_names)}
 
-    if not include_uncertain and concept_uncertainty is not None:
+    if not include_uncertain and concept_uncertainty is None:
         raise ValueError("concept_uncertainty tensor is required when include_uncertain is False.")
     
     # iterate over samples 
@@ -460,7 +460,7 @@ def optimized(
         if not eligible_concepts_dict: continue # skip if no eligible concepts
 
         # get the interventions for this sample (no need to filter structured_costs as it is handled in the function)
-        _, selected_concepts_names, _ = get_interventions(concepts=eligible_concepts_dict, sets=structured_costs, budget=budget)
+        _, selected_concepts_names, _ = get_interventions(concept_values=eligible_concepts_dict, structured_costs=structured_costs, budget=budget)
         
         if selected_concepts_names:
             selected_indices = [concept_name_to_index[name] for name in selected_concepts_names]
