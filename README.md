@@ -39,5 +39,5 @@ python chexpert_experiments/train.py \
 
 ```bash
 python chexpert_experiments/chexpert_group_int_eval.py \
-    --bottleneck_type independent
+    --bottleneck_type joint_sigmoid
 ```

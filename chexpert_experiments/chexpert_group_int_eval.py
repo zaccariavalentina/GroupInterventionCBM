@@ -696,9 +696,7 @@ def main(argv: Sequence[str]):
                 print(suffix)
                 print(xtoc_suffix)
                 raise FileNotFoundError(f"Checkpoint not found: {xtoc_path}. Please check the path or file name.")
-                logging.warning(f"XtoC checkpoint '{xtoc_path}' not found. Trying 'last' checkpoint.")
-                xtoc_path = path_exp_dir + '/XtoC' + '/sgd_lr-0.001_wd-0.0/checkpoint_last.pth.tar' # Fallback path
-                utils.load_checkpoint(xtoc_path, xtoc_model)
+                
 
             logging.info(f"Loading CtoY model from: {ctoy_path}")
             ctoy_model = network.InteractiveBottleneckModel(arch=enum_utils.Arch.C_TO_Y, n_concepts=n_concepts, n_classes=n_classes, non_linear_ctoy=non_linear_ctoy).to(device)
@@ -711,10 +709,10 @@ def main(argv: Sequence[str]):
             # Determine architecture and path for the joint model
             if config.bottleneck_type == enum_utils.BottleneckType.JOINT_SIGMOID:
                 arch = enum_utils.Arch.X_TO_C_TO_Y_SIGMOID
-                model_dir = '/XtoCtoY_sigmoid' # Assuming directory name convention
+                model_dir = '/XtoCtoY_sigmoid/' # Assuming directory name convention
             else: # JOINT
                 arch = enum_utils.Arch.X_TO_C_TO_Y
-                model_dir = '/XtoCtoY' # Assuming directory name convention
+                model_dir = '/XtoCtoY/' # Assuming directory name convention
 
             # Construct the full path using the hardcoded base and suffix from the original script
             path = path_exp_dir + model_dir + suffix
