@@ -36,3 +36,8 @@ python chexpert_experiments/train.py \
     --seed 42 \
     --arch XtoCtoY_sigmoid 
 ```
+
+```bash
+python chexpert_experiments/chexpert_group_int_eval.py \
+    --bottleneck_type independent
+```
